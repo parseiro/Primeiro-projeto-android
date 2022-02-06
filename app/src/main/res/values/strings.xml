@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Agenda</string>
+    <string name="aluno">Aluno</string>
+    <string name="data_title">Dados do paciente</string>
+    <string name="complete_name">Nome completo</string>
+    <string name="masculine">Masculino</string>
+    <string name="feminine">Feminino</string>
+    <string name="agreed_research">Concorda em participar de pesquisas</string>
+    <string name="clear">Limpar</string>
+    <string name="save">Salvar</string>
 </resources>
