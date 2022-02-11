@@ -1,4 +1,4 @@
-package com.vilelapinheiro;
+package com.vilelapinheiro.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -12,26 +12,32 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.vilelapinheiro.R;
+import com.vilelapinheiro.dao.PacienteDAO;
+import com.vilelapinheiro.model.Convenio;
+import com.vilelapinheiro.model.Paciente;
+import com.vilelapinheiro.model.Sexo;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Entrega1Activity extends AppCompatActivity {
+public class NewPatientActivity extends AppCompatActivity {
     private EditText campoNome;
     private CheckBox concordaPesquisas;
     private RadioGroup sexoRadiogroup;
     private Spinner spinnerConvenios;
 
+    PacienteDAO dao = new PacienteDAO();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle("Novo paciente");
         setContentView(R.layout.entrega1);
+        initializeFields();
 
-        campoNome = findViewById(R.id.nameTexteditor);
-        concordaPesquisas = findViewById(R.id.pesquisaCheckbox);
-        sexoRadiogroup = findViewById(R.id.sexoRadiogroup);
 
-        spinnerConvenios = findViewById(R.id.spinnerConvenios);
         {
             final List<String> lista = new ArrayList<>();
             lista.add("");
@@ -49,36 +55,68 @@ public class Entrega1Activity extends AppCompatActivity {
 
     }
 
-    public void clicouSalvar(View view) {
-//        System.out.println("clicouSalvar()");
+    private void initializeFields() {
+        campoNome = findViewById(R.id.nameTexteditor);
+        concordaPesquisas = findViewById(R.id.pesquisaCheckbox);
+        sexoRadiogroup = findViewById(R.id.sexoRadiogroup);
+        spinnerConvenios = findViewById(R.id.spinnerConvenios);
+    }
 
+    public void clicouSalvar(View view) {
+
+        final Paciente aluno = criarNovoPaciente();
+        if (aluno == null) return;
+
+        dao.save(aluno);
+
+//        startActivity(new Intent(this, MainActivity.class));
+        finish();
+
+
+    }
+
+    @Nullable
+    private Paciente criarNovoPaciente() {
         final String nomeCompleto = campoNome.getText().toString();
-//        System.out.println("nomeCompleto: '" + nomeCompleto + "'");
         if (nomeCompleto.isEmpty()) {
             final String mensagem = "O nome não pode ser vazio";
             Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
 
             campoNome.requestFocus();
-            return;
+            return null;
         }
 
-        String convenioString = (String) spinnerConvenios.getSelectedItem();
+        final String convenioString = (String) spinnerConvenios.getSelectedItem();
         if (convenioString == null || convenioString.isEmpty()) {
             final String mensagem = "Selecione um convênio";
             Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
 
             spinnerConvenios.requestFocus();
-            return;
+            return null;
         }
 
 
-        if (sexoRadiogroup.getCheckedRadioButtonId() == -1) {
-            final String mensagem = "Por favor selecione o sexo";
-            Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
+        final Sexo sexo;
+        switch (sexoRadiogroup.getCheckedRadioButtonId()) {
+            case R.id.masculineRadioBtn:
+                sexo = Sexo.MASCULINO;
+                break;
+            case R.id.feminineRadioBtn:
+                sexo = Sexo.FEMININO;
+                break;
+            case -1:
+            default:
+                final String mensagem = "Por favor selecione o sexo";
+                Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
 
-            return;
+                return null;
         }
 
+        final boolean concorda = concordaPesquisas.isChecked();
+
+        final Paciente aluno = new Paciente(nomeCompleto, sexo,
+                new Convenio(convenioString), concorda);
+        return aluno;
     }
 
     public void clicouLimpar(View view) {
