@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,14 +15,14 @@
         android:layout_marginBottom="26dp"
         android:clickable="true"
         android:onClick="clicouAdd"
-        android:src="@drawable/ic_action_novo_aluno" />
+        android:src="@drawable/ic_action_novo_aluno"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="26dp" />
 
     <ListView
         android:id="@+id/activity_main_lista_alunos"
         android:layout_width="match_parent"
         android:layout_height="441dp">
-
-
     </ListView>
 
 
