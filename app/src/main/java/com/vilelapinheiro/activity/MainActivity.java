@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.vilelapinheiro.R;
 import com.vilelapinheiro.dao.PacienteDAO;
+import com.vilelapinheiro.model.Convenio;
 import com.vilelapinheiro.model.Paciente;
+import com.vilelapinheiro.model.Sexo;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Pacientes");
         setContentView(R.layout.activity_main);
 
+//        createEntities();
         configureList();
 
     }
@@ -37,8 +40,26 @@ public class MainActivity extends AppCompatActivity {
         configureList();
     }
 
+/*    private void createEntities() {
+        String[] nomes = getResources().getStringArray(R.array.nomes);
+        String[] sexos = getResources().getStringArray(R.array.sexos);
+        String[] convenios = getResources().getStringArray(R.array.convenios);
+        String[] pesquisas = getResources().getStringArray(R.array.pesquisas);
+
+
+        for (int i = 0; i < nomes.length; i++) {
+            final String nome = nomes[i];
+            final Sexo sexo = "M".equalsIgnoreCase(sexos[i]) ? Sexo.MASCULINO : Sexo.FEMININO;
+            final Convenio convenio = new Convenio(convenios[i]);
+            final boolean concorda = "true".equalsIgnoreCase(pesquisas[i]) ? true : false;
+
+            Paciente paciente = new Paciente(nome, sexo, convenio, concorda);
+            PacienteDAO.save(paciente);
+        }
+    }*/
+
     private void configureList() {
-        List<Paciente> alunos = PacienteDAO.getAlunos();
+        List<Paciente> alunos = PacienteDAO.findAll();
 
         listaDeAlunos.setAdapter(new ArrayAdapter<>(
                 this,

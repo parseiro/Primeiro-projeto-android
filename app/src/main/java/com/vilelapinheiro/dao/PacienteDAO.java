@@ -1,5 +1,6 @@
 package com.vilelapinheiro.dao;
 
+import com.vilelapinheiro.R;
 import com.vilelapinheiro.model.Paciente;
 
 import java.util.ArrayList;
@@ -13,11 +14,11 @@ public class PacienteDAO {
 //                    Arrays.asList("Dunha0000", "margo", "Jose", "Maria", "Ana")
             );
 
-    public static List<Paciente> getAlunos() {
+    public static List<Paciente> findAll() {
         return Collections.unmodifiableList(alunos);
     }
 
-    public void save(Paciente aluno) {
+    public static void save(Paciente aluno) {
         alunos.add(aluno);
     }
 }
