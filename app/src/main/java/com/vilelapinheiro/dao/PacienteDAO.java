@@ -1,6 +1,5 @@
 package com.vilelapinheiro.dao;
 
-import com.vilelapinheiro.R;
 import com.vilelapinheiro.model.Paciente;
 
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ public class PacienteDAO {
     }
 
     public static void save(Paciente aluno) {
+        System.out.println("Salvando aluno: " + aluno.getNomeCompleto());
         alunos.add(aluno);
     }
 }

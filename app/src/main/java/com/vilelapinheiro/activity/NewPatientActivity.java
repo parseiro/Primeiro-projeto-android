@@ -37,7 +37,6 @@ public class NewPatientActivity extends AppCompatActivity {
         setContentView(R.layout.entrega1);
         initializeFields();
 
-
         {
             final List<String> lista = new ArrayList<>();
             lista.add("");
@@ -51,8 +50,6 @@ public class NewPatientActivity extends AppCompatActivity {
                     lista);
             spinnerConvenios.setAdapter(adapter);
         }
-
-
     }
 
     private void initializeFields() {
@@ -122,13 +119,15 @@ public class NewPatientActivity extends AppCompatActivity {
     public void clicouLimpar(View view) {
         String mensagem = "Limpou campos";
 
-//        System.out.println(mensagem);
-
         Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
 
         campoNome.setText(null);
         sexoRadiogroup.clearCheck();
         concordaPesquisas.setChecked(false);
         spinnerConvenios.setSelection(0);
+    }
+
+    public void cancelar(View view) {
+        finish();
     }
 }

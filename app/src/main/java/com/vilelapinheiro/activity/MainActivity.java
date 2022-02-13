@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final ListView listaDeAlunos = findViewById(R.id.activity_main_lista_alunos);
+    private ListView patientsList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Pacientes");
         setContentView(R.layout.activity_main);
 
-//        createEntities();
+        patientsList = findViewById(R.id.activity_main_lista_alunos);
+
+        createEntities();
         configureList();
 
     }
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         configureList();
     }
 
-/*    private void createEntities() {
+    private void createEntities() {
         String[] nomes = getResources().getStringArray(R.array.nomes);
         String[] sexos = getResources().getStringArray(R.array.sexos);
         String[] convenios = getResources().getStringArray(R.array.convenios);
@@ -56,15 +59,23 @@ public class MainActivity extends AppCompatActivity {
             Paciente paciente = new Paciente(nome, sexo, convenio, concorda);
             PacienteDAO.save(paciente);
         }
-    }*/
+    }
 
     private void configureList() {
-        List<Paciente> alunos = PacienteDAO.findAll();
+//        System.out.println("Rodando novamente configureList()");
+        List<Paciente> pacientes = PacienteDAO.findAll();
 
-        listaDeAlunos.setAdapter(new ArrayAdapter<>(
+        patientsList.setAdapter(new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
-                alunos));
+                pacientes));
+
+        patientsList.setOnItemClickListener(((parent, view, position, id) -> {
+            final Paciente patient = (Paciente) patientsList.getItemAtPosition(position);
+
+            final String mensagem = "Clicou: " + patient.getNomeCompleto();
+            Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
+        }));
     }
 
     public void clicouAdd(View view) {

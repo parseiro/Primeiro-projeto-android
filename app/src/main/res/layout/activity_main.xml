@@ -22,8 +22,7 @@
     <ListView
         android:id="@+id/activity_main_lista_alunos"
         android:layout_width="match_parent"
-        android:layout_height="441dp">
-    </ListView>
+        android:layout_height="wrap_content"></ListView>
 
 
 </RelativeLayout>
