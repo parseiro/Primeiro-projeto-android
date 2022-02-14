@@ -11,9 +11,10 @@ import android.widget.TextView;
 import com.vilelapinheiro.activity.MainActivity;
 import com.vilelapinheiro.model.Paciente;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PacienteAdapter extends BaseAdapter {
+public class PacienteAdapter extends BaseAdapter  {
 
     private Context context;
     private List<Paciente> pacientes;

@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vilelapinheiro.PacienteAdapter;
 import com.vilelapinheiro.R;
-import com.vilelapinheiro.dao.PacienteDAO;
+import com.vilelapinheiro.dao.PatientDAO;
 import com.vilelapinheiro.model.Convenio;
 import com.vilelapinheiro.model.Paciente;
 import com.vilelapinheiro.model.Sexo;
@@ -54,17 +53,17 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < nomes.length; i++) {
             final String nome = nomes[i];
             final Sexo sexo = "M".equalsIgnoreCase(sexos[i]) ? Sexo.MASCULINO : Sexo.FEMININO;
-            final Convenio convenio = new Convenio(convenios[i]);
+            final Convenio convenio = Convenio.valueOf(convenios[i]);
             final boolean concorda = "true".equalsIgnoreCase(pesquisas[i]) ? true : false;
 
             Paciente paciente = new Paciente(nome, sexo, convenio, concorda);
-            PacienteDAO.save(paciente);
+            PatientDAO.save(paciente);
         }
     }
 
     private void configureList() {
 //        System.out.println("Rodando novamente configureList()");
-        List<Paciente> pacientes = PacienteDAO.findAll();
+        List<Paciente> pacientes = PatientDAO.findAll();
 
         if (false) {
             patientsList.setAdapter(new ArrayAdapter<>(
@@ -72,19 +71,23 @@ public class MainActivity extends AppCompatActivity {
                     android.R.layout.simple_list_item_1,
                     pacientes));
         } else {
-            PacienteAdapter pacienteAdapter = new PacienteAdapter(this, PacienteDAO.findAll());
+            PacienteAdapter pacienteAdapter = new PacienteAdapter(this, PatientDAO.findAll());
             patientsList.setAdapter(pacienteAdapter);
         }
 
         patientsList.setOnItemClickListener(((parent, view, position, id) -> {
             final Paciente patient = (Paciente) patientsList.getItemAtPosition(position);
 
-            final String mensagem = "Clicou: " + patient.getNomeCompleto();
-            Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
+            Intent editarPaciente = new Intent(MainActivity.this, PatientFormActivity.class);
+            editarPaciente.putExtra("patient", patient);
+            startActivity(editarPaciente);
+
+//            final String mensagem = "Clicou: " + patient.getNomeCompleto();
+//            Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
         }));
     }
 
     public void clicouAdd(View view) {
-        startActivity(new Intent(this, NewPatientActivity.class));
+        startActivity(new Intent(this, PatientFormActivity.class));
     }
 }

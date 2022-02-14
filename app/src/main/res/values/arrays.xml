@@ -25,16 +25,16 @@
         <item>M</item>
     </string-array>
     <string-array name="convenios">
-        <item>Unimed</item>
-        <item>Amil</item>
-        <item>Unimed</item>
-        <item>Unimed</item>
-        <item>Unimed</item>
-        <item>Unimed</item>
-        <item>Unimed</item>
-        <item>Unimed</item>
-        <item>Unimed</item>
-        <item>Unimed</item>
+        <item>UNIMED</item>
+        <item>AMIL</item>
+        <item>UNIMED</item>
+        <item>UNIMED</item>
+        <item>UNIMED</item>
+        <item>UNIMED</item>
+        <item>UNIMED</item>
+        <item>UNIMED</item>
+        <item>UNIMED</item>
+        <item>UNIMED</item>
     </string-array>
     <string-array name="pesquisas">
         <item>true</item>

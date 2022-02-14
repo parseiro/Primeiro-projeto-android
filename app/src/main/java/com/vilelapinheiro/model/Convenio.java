@@ -1,14 +1,18 @@
 package com.vilelapinheiro.model;
 
-public class Convenio {
-    private String nomeConvenio;
+import java.io.Serializable;
 
-    public Convenio(final String nomeConvenio) {
-        this.nomeConvenio = nomeConvenio;
+public enum Convenio implements Serializable {
+    UNIMED("Unimed"), AMIL("Amil"), COOPERMED("Coopermed"), CASSI("Cassi");
+
+    private String name;
+
+    private Convenio(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        return nomeConvenio;
+        return name;
     }
 }
