@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.vilelapinheiro.PacienteAdapter;
 import com.vilelapinheiro.R;
 import com.vilelapinheiro.dao.PacienteDAO;
 import com.vilelapinheiro.model.Convenio;
@@ -65,16 +66,21 @@ public class MainActivity extends AppCompatActivity {
 //        System.out.println("Rodando novamente configureList()");
         List<Paciente> pacientes = PacienteDAO.findAll();
 
-        patientsList.setAdapter(new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                pacientes));
+        if (false) {
+            patientsList.setAdapter(new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    pacientes));
+        } else {
+            PacienteAdapter pacienteAdapter = new PacienteAdapter(this, PacienteDAO.findAll());
+            patientsList.setAdapter(pacienteAdapter);
+        }
 
         patientsList.setOnItemClickListener(((parent, view, position, id) -> {
             final Paciente patient = (Paciente) patientsList.getItemAtPosition(position);
 
             final String mensagem = "Clicou: " + patient.getNomeCompleto();
-            Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
         }));
     }
 

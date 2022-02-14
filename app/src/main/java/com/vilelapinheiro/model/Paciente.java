@@ -24,6 +24,8 @@ public class Paciente {
         return sexo;
     }
 
+    public String getSexoShortString() { return sexo == Sexo.FEMININO ? "F" : "M"; }
+
     public Convenio getConvenio() {
         return convenio;
     }
