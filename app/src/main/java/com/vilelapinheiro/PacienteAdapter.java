@@ -1,41 +1,39 @@
 package com.vilelapinheiro;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.vilelapinheiro.activity.MainActivity;
 import com.vilelapinheiro.model.Paciente;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class PacienteAdapter extends BaseAdapter  {
 
     private Context context;
-    private List<Paciente> pacientes;
+    private final List<Paciente> patients = new ArrayList<>();
 
     private static class PacienteHolder {
         public TextView name, sex, convenio, pesquisas;
     }
 
-    public PacienteAdapter(Context context, List<Paciente> pacientes) {
+    public PacienteAdapter(Context context) {
         this.context = context;
-        this.pacientes = pacientes;
     }
 
     @Override
     public int getCount() {
-        return pacientes.size();
+        return patients.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return pacientes.get(position);
+        return patients.get(position);
     }
 
     @Override
@@ -63,12 +61,23 @@ public class PacienteAdapter extends BaseAdapter  {
             holder = (PacienteHolder) view.getTag();
         }
 
-        Paciente paciente = pacientes.get(position);
+        Paciente paciente = patients.get(position);
         holder.name.setText(paciente.getNomeCompleto());
         holder.sex.setText(paciente.getSexoShortString());
         holder.convenio.setText(paciente.getConvenio().toString());
         holder.pesquisas.setText(paciente.isConcordaPesquisas() ? "Concorda" : "Não concorda");
 
         return view;
+    }
+
+    public void removeRow(int position) {
+        patients.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void clearAndAddAll(Collection<Paciente> collection) {
+        patients.clear();
+        patients.addAll(collection);
+        notifyDataSetChanged();
     }
 }

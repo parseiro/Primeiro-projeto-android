@@ -2,10 +2,13 @@ package com.vilelapinheiro.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,32 +21,48 @@ import com.vilelapinheiro.model.Sexo;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class PatientsListActivity extends AppCompatActivity {
 
+    public static final String KEY_PATIENT = "patient";
     private ListView patientsList;
+
+    PatientDAO dao = new PatientDAO();
+    private PacienteAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle("Pacientes");
         setContentView(R.layout.activity_main);
+        setTitle("Pacientes");
 
-        patientsList = findViewById(R.id.activity_main_lista_alunos);
-
-        createEntities();
+        createHardcodedPatients();
         configureList();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        configureList();
+        adapter.clearAndAddAll(dao.findAll());
     }
 
-    private void createEntities() {
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add("Remover");
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo menuInfo =
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        Paciente patient = (Paciente) adapter.getItem(menuInfo.position);
+        dao.remove(patient);
+        adapter.removeRow(menuInfo.position);
+        return super.onContextItemSelected(item);
+    }
+
+    private void createHardcodedPatients() {
         String[] nomes = getResources().getStringArray(R.array.nomes);
         String[] sexos = getResources().getStringArray(R.array.sexos);
         String[] convenios = getResources().getStringArray(R.array.convenios);
@@ -64,22 +83,29 @@ public class MainActivity extends AppCompatActivity {
     private void configureList() {
 //        System.out.println("Rodando novamente configureList()");
         List<Paciente> pacientes = PatientDAO.findAll();
+        patientsList = findViewById(R.id.activity_main_lista_alunos);
 
-        if (false) {
-            patientsList.setAdapter(new ArrayAdapter<>(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    pacientes));
-        } else {
-            PacienteAdapter pacienteAdapter = new PacienteAdapter(this, PatientDAO.findAll());
-            patientsList.setAdapter(pacienteAdapter);
-        }
+        adapter = new PacienteAdapter(this);
+        patientsList.setAdapter(adapter);
 
+        configuraOnItemClickListener(patientsList);
+
+/*        patientsList.setOnItemLongClickListener((parent, view, position, id) -> {
+            final Paciente patient = (Paciente) parent.getItemAtPosition(position);
+            dao.remove(patient);
+            adapter.removeRow(position);
+            return true;
+        });*/
+
+        registerForContextMenu(patientsList);
+    }
+
+    private void configuraOnItemClickListener(ListView patientsList) {
         patientsList.setOnItemClickListener(((parent, view, position, id) -> {
-            final Paciente patient = (Paciente) patientsList.getItemAtPosition(position);
+            final Paciente patient = (Paciente) parent.getItemAtPosition(position);
 
-            Intent editarPaciente = new Intent(MainActivity.this, PatientFormActivity.class);
-            editarPaciente.putExtra("patient", patient);
+            Intent editarPaciente = new Intent(PatientsListActivity.this, PatientFormActivity.class);
+            editarPaciente.putExtra(KEY_PATIENT, patient);
             startActivity(editarPaciente);
 
 //            final String mensagem = "Clicou: " + patient.getNomeCompleto();

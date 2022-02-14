@@ -1,5 +1,7 @@
 package com.vilelapinheiro.activity;
 
+import static com.vilelapinheiro.activity.PatientsListActivity.KEY_PATIENT;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +23,6 @@ import com.vilelapinheiro.model.Paciente;
 import com.vilelapinheiro.model.Sexo;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class PatientFormActivity extends AppCompatActivity {
     private EditText nameField;
@@ -41,27 +42,30 @@ public class PatientFormActivity extends AppCompatActivity {
         initializeFields();
 
         Intent intent = getIntent();
-        patient = (Paciente) intent.getSerializableExtra("patient");
+        patient = (Paciente) intent.getSerializableExtra(KEY_PATIENT);
         if (patient == null) {
-            setTitle("Novo paciente");
             patient = new Paciente("", Sexo.MASCULINO, Convenio.UNIMED, true);
+            setTitle("Novo paciente");
         } else {
             setTitle("Editar paciente");
         }
 
+        fillPatientsData();
+    }
+
+    private void fillPatientsData() {
         nameField.setText(patient.getNomeCompleto());
         switch (patient.getSexo()) {
             case MASCULINO:
-//                Log.i("PatientFormActivity", "masculino");
                 masculineRdButton.setChecked(true);
                 break;
             case FEMININO:
-//                Log.i("PatientFormActivity", "feminino");
                 feminineRdButton.setChecked(true);
                 break;
         }
 
         concordaPesquisas.setChecked(patient.isConcordaPesquisas());
+
         int position = Arrays.asList(Convenio.values()).indexOf(patient.getConvenio());
         spinnerConvenios.setSelection(position);
     }
@@ -74,21 +78,11 @@ public class PatientFormActivity extends AppCompatActivity {
         feminineRdButton = findViewById(R.id.feminineRadioBtn);
         spinnerConvenios = findViewById(R.id.spinnerConvenios);
 
-        {
-            final List<Convenio> lista = Arrays.asList(Convenio.values());
-/*            for (Convenio c : Convenio.values()) {
-
-            }
-            lista.add("Unimed");
-            lista.add("Amil");
-            lista.add("Cassi");
-            lista.add("Coopermil");*/
-            ArrayAdapter<Convenio> adapter = new ArrayAdapter<>(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    lista);
-            spinnerConvenios.setAdapter(adapter);
-        }
+        ArrayAdapter<Convenio> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                Arrays.asList(Convenio.values()));
+        spinnerConvenios.setAdapter(adapter);
     }
 
     public void clicouSalvar(View view) {
@@ -98,7 +92,6 @@ public class PatientFormActivity extends AppCompatActivity {
 
         dao.save(patient);
 
-//        startActivity(new Intent(this, MainActivity.class));
         finish();
 
 
@@ -116,17 +109,6 @@ public class PatientFormActivity extends AppCompatActivity {
         }
 
         final Convenio convenio = (Convenio) spinnerConvenios.getSelectedItem();
-/*
-        if (convenioString == null || convenioString.isEmpty()) {
-            final String mensagem = "Selecione um convênio";
-            Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
-
-            spinnerConvenios.requestFocus();
-            return null;
-        }
-        Convenio convenio = Convenio.valueOf(convenioString);
-*/
-
 
         final Sexo sexo;
         switch (sexoRadiogroup.getCheckedRadioButtonId()) {

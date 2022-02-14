@@ -45,4 +45,8 @@ public class PatientDAO {
             }
         }
     }
+
+    public static void remove(Paciente patient) {
+        alunos.remove(patient);
+    }
 }
