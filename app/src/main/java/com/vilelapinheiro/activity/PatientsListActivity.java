@@ -50,7 +50,7 @@ public class PatientsListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_patients_list_top_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -60,14 +60,14 @@ public class PatientsListActivity extends AppCompatActivity {
 //                Log.w("TAG", "About");
                 Intent about = new Intent(this, AboutActivity.class);
                 startActivity(about);
-                break;
+                return true;
             case R.id.activity_patients_list_new:
 //                Log.w("TAG", "Novo");
                 clickedAdd();
-                break;
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

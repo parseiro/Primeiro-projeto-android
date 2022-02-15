@@ -55,7 +55,7 @@ public class PatientFormActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_patients_form_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -64,17 +64,19 @@ public class PatientFormActivity extends AppCompatActivity {
             case R.id.activity_patient_form_menu_salvar:
 //                Log.w("TAG", "salvar");
                 clickedSave();
-                break;
+                return true;
             case R.id.activity_patient_form_menu_cancelar:
 //                Log.w("TAG", "cancelar");
                 clickedCancel();
-                break;
+                return true;
             case R.id.activity_patient_form_menu_limpar:
                 clicouLimpar();
-                break;
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
+
     }
 
     private void fillPatientsData() {

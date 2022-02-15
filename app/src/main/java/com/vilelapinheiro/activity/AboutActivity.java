@@ -22,7 +22,7 @@ public class AboutActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_about_top_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
@@ -30,9 +30,9 @@ public class AboutActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.activity_about_exit:
                 finish();
-                break;
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
