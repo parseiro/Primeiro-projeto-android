@@ -33,7 +33,7 @@ public class PatientsListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.patients_list);
         setTitle("Pacientes");
 
         createHardcodedPatients();
@@ -49,16 +49,20 @@ public class PatientsListActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add("Remover");
+        getMenuInflater().inflate(R.menu.activity_lista_alunos_menu, menu);
     }
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo =
-                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Paciente patient = (Paciente) adapter.getItem(menuInfo.position);
-        dao.remove(patient);
-        adapter.removeRow(menuInfo.position);
+        if (item.getItemId() == R.id.activity_lista_alunos_menu_remover) {
+
+            AdapterView.AdapterContextMenuInfo menuInfo =
+                    (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            Paciente patient = (Paciente) adapter.getItem(menuInfo.position);
+            dao.remove(patient);
+            adapter.removeRow(menuInfo.position);
+        }
+
         return super.onContextItemSelected(item);
     }
 
