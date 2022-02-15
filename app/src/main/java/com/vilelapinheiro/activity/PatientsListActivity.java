@@ -78,16 +78,18 @@ public class PatientsListActivity extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.activity_lista_alunos_menu_remover) {
+        switch (item.getItemId()) {
+            case R.id.activity_lista_alunos_menu_remover:
 
-            AdapterView.AdapterContextMenuInfo menuInfo =
-                    (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            Paciente patient = (Paciente) adapter.getItem(menuInfo.position);
-            dao.remove(patient);
-            adapter.removeRow(menuInfo.position);
+                AdapterView.AdapterContextMenuInfo menuInfo =
+                        (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+                Paciente patient = (Paciente) adapter.getItem(menuInfo.position);
+                dao.remove(patient);
+                adapter.removeRow(menuInfo.position);
+                return true;
+            default:
+                return super.onContextItemSelected(item);
         }
-
-        return super.onContextItemSelected(item);
     }
 
     private void createHardcodedPatients() {
