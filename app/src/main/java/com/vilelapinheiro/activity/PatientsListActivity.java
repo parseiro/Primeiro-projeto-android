@@ -21,11 +21,10 @@ import com.vilelapinheiro.model.Convenio;
 import com.vilelapinheiro.model.Paciente;
 import com.vilelapinheiro.model.Sexo;
 
-import java.util.List;
-
 public class PatientsListActivity extends AppCompatActivity {
 
     public static final String KEY_PATIENT = "patient";
+    public static final int CODE_NEW_PATIENT = 101;
     private ListView patientsList;
 
     PatientDAO dao = new PatientDAO();
@@ -63,8 +62,8 @@ public class PatientsListActivity extends AppCompatActivity {
                 startActivity(about);
                 break;
             case R.id.activity_patients_list_new:
-                Log.w("TAG", "Novo");
-//                clickedCancel();
+//                Log.w("TAG", "Novo");
+                clickedAdd();
                 break;
         }
 
@@ -135,14 +134,28 @@ public class PatientsListActivity extends AppCompatActivity {
 
             Intent editarPaciente = new Intent(PatientsListActivity.this, PatientFormActivity.class);
             editarPaciente.putExtra(KEY_PATIENT, patient);
-            startActivity(editarPaciente);
+            startActivityForResult(editarPaciente, CODE_NEW_PATIENT);
 
 //            final String mensagem = "Clicou: " + patient.getNomeCompleto();
 //            Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
         }));
     }
 
-    public void clicouAdd(View view) {
-        startActivity(new Intent(this, PatientFormActivity.class));
+    public void clickedAdd() {
+        Intent intent = new Intent(this, PatientFormActivity.class);
+        startActivityForResult(intent, CODE_NEW_PATIENT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
+        if (requestCode == CODE_NEW_PATIENT && resultCode == RESULT_OK) {
+            Paciente patient = (Paciente) intent.getSerializableExtra(KEY_PATIENT);
+//            Log.i("PatientsListActivity", "onActivityResult: recebi o seguinte paciente: " + patient);
+            dao.save(patient);
+        } else if (resultCode == RESULT_CANCELED) {
+            Log.i("PatientsListActivity", "onActivityResult: cancelado!!");
+        }
+
+        super.onActivityResult(requestCode, resultCode, intent);
     }
 }

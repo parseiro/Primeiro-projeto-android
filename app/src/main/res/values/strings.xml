@@ -13,4 +13,6 @@
     <string name="patients">Pacientes</string>
     <string name="author_name_email"><![CDATA[Leonardo Vilela Pinheiro <leonardo@vilelapinheiro.com>]]></string>
     <string name="sobre_introducao">Este é um aplicativo para o médico autônomo cadastrar seus pacientes.</string>
+    <string name="edit_patient">Editar paciente</string>
+    <string name="new_patient">Novo paciente</string>
 </resources>

@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vilelapinheiro.R;
-import com.vilelapinheiro.dao.PatientDAO;
 import com.vilelapinheiro.model.Convenio;
 import com.vilelapinheiro.model.Paciente;
 import com.vilelapinheiro.model.Sexo;
@@ -34,8 +33,6 @@ public class PatientFormActivity extends AppCompatActivity {
     private Spinner spinnerConvenios;
     private Paciente patient;
 
-    PatientDAO dao = new PatientDAO();
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +41,12 @@ public class PatientFormActivity extends AppCompatActivity {
         initializeFields();
 
         Intent intent = getIntent();
-        patient = (Paciente) intent.getSerializableExtra(KEY_PATIENT);
-        if (patient == null) {
-            patient = new Paciente("", Sexo.MASCULINO, Convenio.UNIMED, true);
-            setTitle("Novo paciente");
+        if (intent.hasExtra(KEY_PATIENT)) {
+            patient = (Paciente) intent.getSerializableExtra(KEY_PATIENT);
+            setTitle(getString(R.string.edit_patient));
         } else {
-            setTitle("Editar paciente");
+            patient = new Paciente("", Sexo.MASCULINO, Convenio.UNIMED, true);
+            setTitle(getString(R.string.new_patient));
         }
 
         fillPatientsData();
@@ -116,14 +113,27 @@ public class PatientFormActivity extends AppCompatActivity {
         final Paciente patient = getPatientData();
         if (patient == null) return;
 
-        dao.save(patient);
+        finishActivity(RESULT_OK, patient);
+    }
 
+    private void finishActivity(int resultCode, @Nullable Paciente patient) {
+        Intent intent = new Intent();
+
+        if (patient != null) {
+            intent.putExtra(KEY_PATIENT, patient);
+        }
+        setResult(resultCode, intent);
         finish();
     }
 
-//    public void clickedSave(View view) {
-//        clickedSave();
-//    }
+    private void clickedCancel() {
+        finishActivity(RESULT_CANCELED, null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        clickedCancel();
+    }
 
     @Nullable
     private Paciente getPatientData() {
@@ -173,13 +183,5 @@ public class PatientFormActivity extends AppCompatActivity {
         sexoRadiogroup.clearCheck();
         concordaPesquisas.setChecked(false);
         spinnerConvenios.setSelection(0);
-    }
-
-//    public void clickedCancel(View view) {
-//        clickedCancel();
-//    }
-
-    private void clickedCancel() {
-        finish();
     }
 }
