@@ -9,4 +9,8 @@
     <string name="clear">Limpar</string>
     <string name="save">Salvar</string>
     <string name="select_convenio">Selecione o convênio:</string>
+    <string name="about">Sobre</string>
+    <string name="patients">Pacientes</string>
+    <string name="author_name_email"><![CDATA[Leonardo Vilela Pinheiro <leonardo@vilelapinheiro.com>]]></string>
+    <string name="sobre_introducao">Este é um aplicativo para o médico autônomo cadastrar seus pacientes.</string>
 </resources>

@@ -2,7 +2,9 @@ package com.vilelapinheiro.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,7 +36,7 @@ public class PatientsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.patients_list);
-        setTitle("Pacientes");
+        setTitle(getString(R.string.patients));
 
         createHardcodedPatients();
         configureList();
@@ -47,9 +49,32 @@ public class PatientsListActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_patients_list_top_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.activity_patients_list_about:
+//                Log.w("TAG", "About");
+                Intent about = new Intent(this, AboutActivity.class);
+                startActivity(about);
+                break;
+            case R.id.activity_patients_list_new:
+                Log.w("TAG", "Novo");
+//                clickedCancel();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.activity_lista_alunos_menu, menu);
+        getMenuInflater().inflate(R.menu.activity_patients_list_menu, menu);
     }
 
     @Override
@@ -86,7 +111,7 @@ public class PatientsListActivity extends AppCompatActivity {
 
     private void configureList() {
 //        System.out.println("Rodando novamente configureList()");
-        List<Paciente> pacientes = PatientDAO.findAll();
+//        List<Paciente> pacientes = PatientDAO.findAll();
         patientsList = findViewById(R.id.activity_main_lista_alunos);
 
         adapter = new PacienteAdapter(this);

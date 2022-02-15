@@ -4,7 +4,8 @@ import static com.vilelapinheiro.activity.PatientsListActivity.KEY_PATIENT;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -53,6 +55,31 @@ public class PatientFormActivity extends AppCompatActivity {
         fillPatientsData();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_patients_form_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.activity_patient_form_menu_salvar:
+//                Log.w("TAG", "salvar");
+                clickedSave();
+                break;
+            case R.id.activity_patient_form_menu_cancelar:
+//                Log.w("TAG", "cancelar");
+                clickedCancel();
+                break;
+            case R.id.activity_patient_form_menu_limpar:
+                clicouLimpar();
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void fillPatientsData() {
         nameField.setText(patient.getNomeCompleto());
         switch (patient.getSexo()) {
@@ -85,17 +112,18 @@ public class PatientFormActivity extends AppCompatActivity {
         spinnerConvenios.setAdapter(adapter);
     }
 
-    public void clicouSalvar(View view) {
-
+    public void clickedSave() {
         final Paciente patient = getPatientData();
         if (patient == null) return;
 
         dao.save(patient);
 
         finish();
-
-
     }
+
+//    public void clickedSave(View view) {
+//        clickedSave();
+//    }
 
     @Nullable
     private Paciente getPatientData() {
@@ -136,7 +164,7 @@ public class PatientFormActivity extends AppCompatActivity {
         return patient;
     }
 
-    public void clicouLimpar(View view) {
+    public void clicouLimpar() {
         String mensagem = "Limpou campos";
 
         Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
@@ -147,7 +175,11 @@ public class PatientFormActivity extends AppCompatActivity {
         spinnerConvenios.setSelection(0);
     }
 
-    public void cancelar(View view) {
+//    public void clickedCancel(View view) {
+//        clickedCancel();
+//    }
+
+    private void clickedCancel() {
         finish();
     }
 }

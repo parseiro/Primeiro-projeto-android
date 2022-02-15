@@ -15,8 +15,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="268dp"
             android:text="@string/agreed_research"
-            app:layout_constraintStart_toStartOf="@+id/button"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="32dp" />
 
         <EditText
             android:id="@+id/nameTexteditor"
@@ -63,36 +63,14 @@
                 android:text="@string/feminine" />
         </RadioGroup>
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
-            android:onClick="clicouLimpar"
-            android:text="@string/clear"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pesquisaCheckbox" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginRight="32dp"
-            android:onClick="clicouSalvar"
-            android:text="@string/save"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/button" />
-
         <Spinner
             android:id="@+id/spinnerConvenios"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="224dp"
             android:spinnerMode="dialog"
-            app:layout_constraintStart_toStartOf="@+id/button"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="32dp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -103,16 +81,6 @@
             android:text="@string/select_convenio"
             app:layout_constraintBottom_toTopOf="@+id/spinnerConvenios"
             app:layout_constraintStart_toStartOf="@+id/spinnerConvenios" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="cancelar"
-            android:text="Cancelar"
-            app:layout_constraintEnd_toStartOf="@+id/button2"
-            app:layout_constraintStart_toEndOf="@+id/button"
-            app:layout_constraintTop_toTopOf="@+id/button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

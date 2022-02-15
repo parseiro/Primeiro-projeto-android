@@ -38,7 +38,7 @@ public class PacienteAdapter extends BaseAdapter  {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return patients.get(position).getId();
     }
 
     @Override
