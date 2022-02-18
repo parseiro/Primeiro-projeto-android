@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vilelapinheiro.R;
@@ -38,6 +39,12 @@ public class PatientFormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.patient_form_layout);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         initializeFields();
 
         Intent intent = getIntent();
@@ -65,6 +72,7 @@ public class PatientFormActivity extends AppCompatActivity {
 //                Log.w("TAG", "salvar");
                 clickedSave();
                 return true;
+            case android.R.id.home:
             case R.id.activity_patient_form_menu_cancelar:
 //                Log.w("TAG", "cancelar");
                 clickedCancel();

@@ -3,14 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/activity_patient_form_menu_salvar"
+        android:icon="@android:drawable/ic_menu_save"
         android:title="Salvar"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/activity_patient_form_menu_cancelar"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
         android:title="Cancelar"
         app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/activity_patient_form_menu_limpar"
         android:title="Limpar"
         app:showAsAction="ifRoom" />
+
 </menu>
