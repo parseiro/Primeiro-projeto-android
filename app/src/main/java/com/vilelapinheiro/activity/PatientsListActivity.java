@@ -3,14 +3,11 @@ package com.vilelapinheiro.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,8 +30,8 @@ public class PatientsListActivity extends AppCompatActivity {
     PatientDAO dao = new PatientDAO();
     private PacienteAdapter adapter;
     private ActionMode actionMode;
-    private int posicaoSelecionada = -1;
-    private View viewSelecionada;
+    private int selectedPosition = -1;
+    private View selectedView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,12 +61,10 @@ public class PatientsListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.activity_patients_list_about:
-//                Log.w("TAG", "About");
                 Intent about = new Intent(this, AboutActivity.class);
                 startActivity(about);
                 return true;
             case R.id.activity_patients_list_new:
-//                Log.w("TAG", "Novo");
                 clickedAdd();
                 return true;
             default:
@@ -77,7 +72,7 @@ public class PatientsListActivity extends AppCompatActivity {
         }
     }
 
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+    private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.activity_patients_list_contextual_menu, menu);
@@ -97,9 +92,8 @@ public class PatientsListActivity extends AppCompatActivity {
                     mode.finish();
                     return true;
                 case R.id.activity_lista_alunos_menu_edit:
-                    Paciente patient = (Paciente) adapter.getItem(posicaoSelecionada);
+                    Paciente patient = (Paciente) adapter.getItem(selectedPosition);
                     callEditor(patient);
-                    Toast.makeText(PatientsListActivity.this, "Clicou editar", Toast.LENGTH_SHORT).show();
                     mode.finish();
                     return true;
                 default:
@@ -110,22 +104,22 @@ public class PatientsListActivity extends AppCompatActivity {
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            if (viewSelecionada != null) {
-                viewSelecionada.setBackgroundColor(Color.TRANSPARENT);
+            if (selectedView != null) {
+                selectedView.setBackgroundColor(Color.TRANSPARENT);
 
             }
 
             actionMode = null;
-            viewSelecionada = null;
+            selectedView = null;
 
             patientsList.setEnabled(true);
         }
     };
 
     private void deletePatient() {
-        Paciente patient = (Paciente) adapter.getItem(posicaoSelecionada);
+        Paciente patient = (Paciente) adapter.getItem(selectedPosition);
         dao.remove(patient);
-        adapter.removeRow(posicaoSelecionada);
+        adapter.removeRow(selectedPosition);
     }
 
 /*    @Override
@@ -151,26 +145,26 @@ public class PatientsListActivity extends AppCompatActivity {
     }*/
 
     private void createHardcodedPatients() {
-        String[] nomes = getResources().getStringArray(R.array.nomes);
-        String[] sexos = getResources().getStringArray(R.array.sexos);
-        String[] convenios = getResources().getStringArray(R.array.convenios);
-        String[] pesquisas = getResources().getStringArray(R.array.pesquisas);
+        String[] names = getResources().getStringArray(R.array.names);
+        String[] genders = getResources().getStringArray(R.array.genders);
+        String[] medicalPlans = getResources().getStringArray(R.array.medical_plans);
+        String[] researchAgreements = getResources().getStringArray(R.array.researchAgreements);
 
 
-        for (int i = 0; i < nomes.length; i++) {
-            final String nome = nomes[i];
-            final Sexo sexo = "M".equalsIgnoreCase(sexos[i]) ? Sexo.MASCULINO : Sexo.FEMININO;
-            final Convenio convenio = Convenio.valueOf(convenios[i]);
-            final boolean concorda = "true".equalsIgnoreCase(pesquisas[i]) ? true : false;
+        for (int i = 0; i < names.length; i++) {
+            final String nome = names[i];
+            final Sexo sexo = "M".equalsIgnoreCase(genders[i]) ? Sexo.MASCULINO : Sexo.FEMININO;
+            final Convenio convenio = Convenio.valueOf(medicalPlans[i]);
+            final boolean agreesWithResearch = "true".equalsIgnoreCase(researchAgreements[i]);
 
-            Paciente paciente = new Paciente(nome, sexo, convenio, concorda);
-            PatientDAO.save(paciente);
+            Paciente paciente = new Paciente(nome, sexo, convenio, agreesWithResearch);
+            dao.save(paciente);
         }
     }
 
     private void configureList() {
 //        System.out.println("Rodando novamente configureList()");
-//        List<Paciente> pacientes = PatientDAO.findAll();
+//        List<Paciente> pacientes = dao.findAll();
         patientsList = findViewById(R.id.activity_main_lista_alunos);
 
         adapter = new PacienteAdapter(this);
@@ -188,11 +182,11 @@ public class PatientsListActivity extends AppCompatActivity {
                 return false;
             }
 
-            posicaoSelecionada = position;
+            selectedPosition = position;
 
             view.setBackgroundColor(Color.LTGRAY);
 
-            viewSelecionada = view;
+            selectedView = view;
 
             patientsList.setEnabled(false);
 
@@ -231,8 +225,6 @@ public class PatientsListActivity extends AppCompatActivity {
             Paciente patient = (Paciente) intent.getSerializableExtra(KEY_PATIENT);
 //            Log.i("PatientsListActivity", "onActivityResult: recebi o seguinte paciente: " + patient);
             dao.save(patient);
-        } else if (resultCode == RESULT_CANCELED) {
-//            Log.i("PatientsListActivity", "onActivityResult: cancelado!!");
         }
 
         super.onActivityResult(requestCode, resultCode, intent);

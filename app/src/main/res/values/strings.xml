@@ -1,18 +1,26 @@
 <resources>
-    <string name="app_name">Agenda</string>
-    <string name="aluno">Aluno</string>
-    <string name="data_title">Dados do paciente</string>
-    <string name="complete_name">Nome completo</string>
-    <string name="masculine">Masculino</string>
-    <string name="feminine">Feminino</string>
-    <string name="agreed_research">Concorda em participar de pesquisas</string>
-    <string name="clear">Limpar</string>
-    <string name="save">Salvar</string>
-    <string name="select_convenio">Selecione o convênio:</string>
-    <string name="about">Sobre</string>
-    <string name="patients">Pacientes</string>
-    <string name="author_name_email"><![CDATA[Leonardo Vilela Pinheiro <leonardo@vilelapinheiro.com>]]></string>
-    <string name="sobre_introducao">Este é um aplicativo para o médico autônomo cadastrar seus pacientes.</string>
-    <string name="edit_patient">Editar paciente</string>
-    <string name="new_patient">Novo paciente</string>
+    <string name="app_name" translatable="false">iPatients</string>
+    <string name="data_title">Patient information</string>
+    <string name="complete_name">Full name</string>
+    <string name="masculine">Masculine</string>
+    <string name="feminine">Feminine</string>
+    <string name="agreed_research">Agrees to take part in research</string>
+    <string name="clear">Clear</string>
+    <string name="save">Save</string>
+    <string name="select_convenio">Select the medical plan:</string>
+    <string name="about">About</string>
+    <string name="patients">Patients</string>
+    <string name="author_name_email" translatable="false"><![CDATA[Leonardo Vilela Pinheiro <leonardo@vilelapinheiro.com>]]></string>
+    <string name="sobre_introducao">This is an app for medical doctors to register their patients</string>
+    <string name="edit_patient">Edit patient</string>
+    <string name="new_patient">New patient</string>
+    <string name="add">Add</string>
+    <string name="name_cant_be_empty">The name cannot be empty</string>
+    <string name="please_select_sex">Please select the sex</string>
+    <string name="have_cleared_fields">Fields cleared</string>
+    <string name="go_back">Go back</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+
 </resources>

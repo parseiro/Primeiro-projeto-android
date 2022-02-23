@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="data_title">Dados do paciente</string>
+    <string name="complete_name">Nome completo</string>
+    <string name="masculine">Masculino</string>
+    <string name="feminine">Feminino</string>
+    <string name="agreed_research">Concorda em participar de pesquisas</string>
+    <string name="clear">Limpar</string>
+    <string name="save">Salvar</string>
+    <string name="select_convenio">Selecione o convênio:</string>
+    <string name="about">Sobre</string>
+    <string name="patients">Pacientes</string>
+    <string name="sobre_introducao">Este é um aplicativo para o médico autônomo cadastrar seus pacientes.</string>
+    <string name="edit_patient">Editar paciente</string>
+    <string name="new_patient">Novo paciente</string>
+    <string name="add">Adicionar</string>
+    <string name="name_cant_be_empty">O nome não pode ser vazio</string>
+    <string name="please_select_sex">Por favor selecione o sexo</string>
+    <string name="have_cleared_fields">Limpou campos</string>
+    <string name="go_back">Voltar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="edit">Editar</string>
+    <string name="remove">Remover</string>
+</resources>

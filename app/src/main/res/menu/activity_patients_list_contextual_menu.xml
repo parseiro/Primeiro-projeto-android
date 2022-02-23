@@ -5,11 +5,11 @@
     <item
         android:id="@+id/activity_lista_alunos_menu_edit"
         android:icon="@android:drawable/ic_menu_edit"
-        android:title="Editar"
+        android:title="@string/edit"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/activity_lista_alunos_menu_delete"
         android:icon="@android:drawable/ic_menu_delete"
-        android:title="Remover"
+        android:title="@string/remove"
         app:showAsAction="ifRoom" />
 </menu>

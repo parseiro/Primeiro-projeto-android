@@ -28,10 +28,10 @@ import java.util.Arrays;
 
 public class PatientFormActivity extends AppCompatActivity {
     private EditText nameField;
-    private CheckBox concordaPesquisas;
-    private RadioGroup sexoRadiogroup;
+    private CheckBox agreeWithResearch;
+    private RadioGroup sexRadioGroup;
     private RadioButton masculineRdButton, feminineRdButton;
-    private Spinner spinnerConvenios;
+    private Spinner planSpinner;
     private Paciente patient;
 
     @Override
@@ -69,16 +69,14 @@ public class PatientFormActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.activity_patient_form_menu_salvar:
-//                Log.w("TAG", "salvar");
                 clickedSave();
                 return true;
             case android.R.id.home:
             case R.id.activity_patient_form_menu_cancelar:
-//                Log.w("TAG", "cancelar");
                 clickedCancel();
                 return true;
             case R.id.activity_patient_form_menu_limpar:
-                clicouLimpar();
+                clickedClear();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -98,25 +96,25 @@ public class PatientFormActivity extends AppCompatActivity {
                 break;
         }
 
-        concordaPesquisas.setChecked(patient.isConcordaPesquisas());
+        agreeWithResearch.setChecked(patient.isConcordaPesquisas());
 
         int position = Arrays.asList(Convenio.values()).indexOf(patient.getConvenio());
-        spinnerConvenios.setSelection(position);
+        planSpinner.setSelection(position);
     }
 
     private void initializeFields() {
         nameField = findViewById(R.id.nameTexteditor);
-        concordaPesquisas = findViewById(R.id.pesquisaCheckbox);
-        sexoRadiogroup = findViewById(R.id.sexoRadiogroup);
+        agreeWithResearch = findViewById(R.id.pesquisaCheckbox);
+        sexRadioGroup = findViewById(R.id.sexoRadiogroup);
         masculineRdButton = findViewById(R.id.masculineRadioBtn);
         feminineRdButton = findViewById(R.id.feminineRadioBtn);
-        spinnerConvenios = findViewById(R.id.spinnerConvenios);
+        planSpinner = findViewById(R.id.spinnerConvenios);
 
         ArrayAdapter<Convenio> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
                 Arrays.asList(Convenio.values()));
-        spinnerConvenios.setAdapter(adapter);
+        planSpinner.setAdapter(adapter);
     }
 
     public void clickedSave() {
@@ -149,17 +147,18 @@ public class PatientFormActivity extends AppCompatActivity {
     private Paciente getPatientData() {
         final String nameString = nameField.getText().toString();
         if (nameString.isEmpty()) {
-            final String mensagem = "O nome não pode ser vazio";
-            Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
+            Toast.makeText(this,
+                    getString(R.string.name_cant_be_empty),
+                    Toast.LENGTH_LONG).show();
 
             nameField.requestFocus();
             return null;
         }
 
-        final Convenio convenio = (Convenio) spinnerConvenios.getSelectedItem();
+        final Convenio convenio = (Convenio) planSpinner.getSelectedItem();
 
         final Sexo sexo;
-        switch (sexoRadiogroup.getCheckedRadioButtonId()) {
+        switch (sexRadioGroup.getCheckedRadioButtonId()) {
             case R.id.masculineRadioBtn:
                 sexo = Sexo.MASCULINO;
                 break;
@@ -168,30 +167,31 @@ public class PatientFormActivity extends AppCompatActivity {
                 break;
             case -1:
             default:
-                final String mensagem = "Por favor selecione o sexo";
-                Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
+                Toast.makeText(this,
+                        R.string.please_select_sex,
+                        Toast.LENGTH_LONG).show();
 
                 return null;
         }
 
-        final boolean concorda = concordaPesquisas.isChecked();
+        final boolean agrees = agreeWithResearch.isChecked();
 
         patient.setNomeCompleto(nameString);
         patient.setSexo(sexo);
         patient.setConvenio(convenio);
-        patient.setConcordaPesquisas(concorda);
+        patient.setConcordaPesquisas(agrees);
 
         return patient;
     }
 
-    public void clicouLimpar() {
-        String mensagem = "Limpou campos";
-
-        Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
+    public void clickedClear() {
+        Toast.makeText(this,
+                R.string.have_cleared_fields,
+                Toast.LENGTH_LONG).show();
 
         nameField.setText(null);
-        sexoRadiogroup.clearCheck();
-        concordaPesquisas.setChecked(false);
-        spinnerConvenios.setSelection(0);
+        sexRadioGroup.clearCheck();
+        agreeWithResearch.setChecked(false);
+        planSpinner.setSelection(0);
     }
 }

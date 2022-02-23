@@ -4,17 +4,17 @@
     <item
         android:id="@+id/activity_patient_form_menu_salvar"
         android:icon="@android:drawable/ic_menu_save"
-        android:title="Salvar"
+        android:title="@string/save"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/activity_patient_form_menu_cancelar"
         android:icon="@android:drawable/ic_menu_close_clear_cancel"
-        android:title="Cancelar"
+        android:title="@string/cancel"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/activity_patient_form_menu_limpar"
-        android:title="Limpar"
+        android:title="@string/clear"
         app:showAsAction="ifRoom" />
 
 </menu>

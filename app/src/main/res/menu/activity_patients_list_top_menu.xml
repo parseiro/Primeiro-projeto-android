@@ -4,11 +4,11 @@
     <item
         android:id="@+id/activity_patients_list_new"
         android:icon="@android:drawable/ic_menu_save"
-        android:title="Adicionar"
+        android:title="@string/add"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/activity_patients_list_about"
-        android:title="Sobre"
+        android:title="@string/about"
         app:showAsAction="always" />
 
 </menu>

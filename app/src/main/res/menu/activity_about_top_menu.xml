@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/activity_about_exit"
-        android:title="Voltar"
+        android:title="@string/go_back"
         app:showAsAction="always" />
 
 </menu>
