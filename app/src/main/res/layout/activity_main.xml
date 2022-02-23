@@ -21,7 +21,7 @@
         android:onClick="openPatients"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+<!--    <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,5 +29,5 @@
         android:text="@string/settings"
         android:onClick="openSettings"
         app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/button" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

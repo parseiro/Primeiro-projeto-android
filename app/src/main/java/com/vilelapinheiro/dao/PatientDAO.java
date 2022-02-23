@@ -10,12 +10,13 @@ import java.util.List;
 
 public class PatientDAO {
 
-    private final static List<Patient> alunos = new ArrayList<>();
+    private final List<Patient> patients = new ArrayList<>();
 
     private static Long nextId = 1L;
 
     public List<Patient> findAll() {
-        return Collections.unmodifiableList(alunos);
+        Log.i("Leonardo", "findAll: tamanho da lista: " + patients.size());
+        return Collections.unmodifiableList(patients);
     }
 
     public void save(final Patient newPatient) {
@@ -27,17 +28,17 @@ public class PatientDAO {
             // Completely new patient
             Log.i("PatientDAO", "save: new patient");
             newPatient.setId(nextId++);
-            alunos.add(newPatient);
+            patients.add(newPatient);
         } else {
             // editing existing patient
 
 //            Log.i("PatientDAO", "save: edit patient");
 
-            for (int i = 0; i < alunos.size(); i++) {
-                if (alunos.get(i).getId() == desiredId) {
+            for (int i = 0; i < patients.size(); i++) {
+                if (patients.get(i).getId() == desiredId) {
                     // found it
 
-                    alunos.set(i, newPatient); // replace it
+                    patients.set(i, newPatient); // replace it
 
                     break; // stop the search
                 }
@@ -46,6 +47,6 @@ public class PatientDAO {
     }
 
     public void remove(Patient patient) {
-        alunos.remove(patient);
+        patients.remove(patient);
     }
 }

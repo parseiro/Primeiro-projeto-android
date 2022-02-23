@@ -24,8 +24,9 @@
     <string name="doesn_agree">Não concorda</string>
     <string name="agrees">Concorda</string>
     <string name="settings">Configuração</string>
-    <string name="switch_night_mode_label">Modo noturno</string>
+    <string name="switch_night_mode_label">Modo noturno (não implementado ainda)</string>
     <string name="title_activity_settings">Configurações</string>
     <string name="title_interface">Interface</string>
     <string name="explain_night_mode">Ativar ou desativar o modo noturno</string>
+    <string name="agree_with_research">Apenas quem concordou</string>
 </resources>

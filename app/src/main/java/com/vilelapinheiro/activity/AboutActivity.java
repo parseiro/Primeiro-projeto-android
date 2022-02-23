@@ -35,7 +35,7 @@ public class AboutActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-            case R.id.activity_about_exit:
+//            case R.id.activity_about_exit:
                 finish();
                 return true;
             default:

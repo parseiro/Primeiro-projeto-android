@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PacienteAdapter extends BaseAdapter  {
+public class PacienteAdapter extends BaseAdapter {
 
     private final Context context;
     private final List<Patient> patients = new ArrayList<>();
@@ -75,9 +75,19 @@ public class PacienteAdapter extends BaseAdapter  {
         notifyDataSetChanged();
     }
 
-    public void clearAndAddAll(Collection<Patient> collection) {
+    public void clearAndAddAll(List<Patient> collection, boolean filteredByAgreed) {
         patients.clear();
-        patients.addAll(collection);
+        if (!filteredByAgreed) {
+            patients.addAll(collection);
+        } else {
+
+            for (int i = 0; i < collection.size(); i++) {
+                Patient item = collection.get(i);
+                if (item.isAgreesWithResearch() == true) {
+                    patients.add(item);
+                }
+            }
+        }
         notifyDataSetChanged();
     }
 }

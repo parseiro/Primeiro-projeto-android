@@ -1,11 +1,14 @@
 package com.vilelapinheiro.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(this);
         Boolean switchPref = sharedPref.getBoolean
                 (SettingsActivity.KEY_NIGHT_MODE, false);
-        Toast.makeText(this, switchPref.toString(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(this, switchPref.toString(), Toast.LENGTH_LONG).show();
     }
 
     public void openPatients(View view) {
@@ -34,6 +37,24 @@ public class MainActivity extends AppCompatActivity {
     public void openSettings(View view) {
         Intent about = new Intent(this, SettingsActivity.class);
         startActivity(about);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_main_top_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.activity_patients_list_about:
+                Intent about = new Intent(this, AboutActivity.class);
+                startActivity(about);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 

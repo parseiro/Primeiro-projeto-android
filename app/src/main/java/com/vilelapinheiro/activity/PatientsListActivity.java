@@ -1,13 +1,16 @@
 package com.vilelapinheiro.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +36,8 @@ public class PatientsListActivity extends AppCompatActivity {
     private int selectedPosition = -1;
     private View selectedView;
 
+    private boolean filteredByAgreed;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,13 +47,20 @@ public class PatientsListActivity extends AppCompatActivity {
 
 
         createHardcodedPatients();
+
+        readFilterSetting();
+
         configureList();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.clearAndAddAll(dao.findAll());
+        refreshList();
+    }
+
+    private void refreshList() {
+        adapter.clearAndAddAll(dao.findAll(), filteredByAgreed);
     }
 
     @Override
@@ -60,16 +72,39 @@ public class PatientsListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.activity_patients_list_about:
+/*            case R.id.activity_patients_list_about:
                 Intent about = new Intent(this, AboutActivity.class);
                 startActivity(about);
-                return true;
+                return true;*/
             case R.id.activity_patients_list_new:
                 clickedAdd();
+                return true;
+            case R.id.agreed:
+                boolean newState = !item.isChecked();
+//                item.setChecked(newState);
+                clickedFilterByAgreed(newState);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem agreedMenuItem = menu.findItem(R.id.agreed);
+        Log.i("Leonardo", "onPrepareOptionsMenu: " + filteredByAgreed);
+        agreedMenuItem.setChecked(filteredByAgreed);
+        return true;
+    }
+
+    private void clickedFilterByAgreed(boolean newState) {
+        Toast.makeText(this,
+                "Clicou apenas filtrados: " + newState,
+                Toast.LENGTH_SHORT).show();
+//        agreedMenuItem.setChecked(true);
+        filteredByAgreed = newState;
+        saveFilterSetting(newState);
+        refreshList();
     }
 
     private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
@@ -228,5 +263,23 @@ public class PatientsListActivity extends AppCompatActivity {
         }
 
         super.onActivityResult(requestCode, resultCode, intent);
+    }
+
+    public static final String FILTERS_SETTING = "com.vilelapinheiro.FILTROS";
+    public static final String AGREED = "only_agreed";
+
+    public void readFilterSetting() {
+        SharedPreferences preferences = getSharedPreferences(FILTERS_SETTING, MODE_PRIVATE);
+
+        filteredByAgreed = preferences.getBoolean(AGREED, false);
+
+//        mudarCor(filteredByAgreed);
+    }
+
+    private void saveFilterSetting(boolean newState) {
+        SharedPreferences preferences = getSharedPreferences(FILTERS_SETTING, MODE_PRIVATE);
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putBoolean(AGREED, newState);
+        edit.apply();
     }
 }
