@@ -7,11 +7,11 @@
     <string name="agreed_research">Agrees to take part in research</string>
     <string name="clear">Clear</string>
     <string name="save">Save</string>
-    <string name="select_convenio">Select the medical plan:</string>
+    <string name="select_medical_plan">Select the medical plan:</string>
     <string name="about">About</string>
     <string name="patients">Patients</string>
     <string name="author_name_email" translatable="false"><![CDATA[Leonardo Vilela Pinheiro <leonardo@vilelapinheiro.com>]]></string>
-    <string name="sobre_introducao">This is an app for medical doctors to register their patients</string>
+    <string name="about_app">This is an app for medical doctors to register their patients</string>
     <string name="edit_patient">Edit patient</string>
     <string name="new_patient">New patient</string>
     <string name="add">Add</string>
@@ -22,5 +22,7 @@
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
+    <string name="doesn_agree">Doesn\'t agree</string>
+    <string name="agrees">Agrees</string>
 
 </resources>

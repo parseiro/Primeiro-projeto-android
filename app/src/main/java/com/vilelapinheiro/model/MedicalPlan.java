@@ -2,12 +2,12 @@ package com.vilelapinheiro.model;
 
 import java.io.Serializable;
 
-public enum Convenio implements Serializable {
+public enum MedicalPlan implements Serializable {
     UNIMED("Unimed"), AMIL("Amil"), COOPERMED("Coopermed"), CASSI("Cassi");
 
-    private String name;
+    private final String name;
 
-    private Convenio(String name) {
+    MedicalPlan(String name) {
         this.name = name;
     }
 

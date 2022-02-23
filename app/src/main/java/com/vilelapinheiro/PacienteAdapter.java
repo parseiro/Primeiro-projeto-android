@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.vilelapinheiro.model.Paciente;
+import com.vilelapinheiro.model.Patient;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,8 +15,8 @@ import java.util.List;
 
 public class PacienteAdapter extends BaseAdapter  {
 
-    private Context context;
-    private final List<Paciente> patients = new ArrayList<>();
+    private final Context context;
+    private final List<Patient> patients = new ArrayList<>();
 
     private static class PacienteHolder {
         public TextView name, sex, convenio, pesquisas;
@@ -53,7 +53,7 @@ public class PacienteAdapter extends BaseAdapter  {
 
             holder.name = view.findViewById(R.id.name);
             holder.sex = view.findViewById(R.id.sex);
-            holder.convenio = view.findViewById(R.id.convenio);
+            holder.convenio = view.findViewById(R.id.medicalPlan);
             holder.pesquisas = view.findViewById(R.id.pesquisas);
 
             view.setTag(holder);
@@ -61,11 +61,11 @@ public class PacienteAdapter extends BaseAdapter  {
             holder = (PacienteHolder) view.getTag();
         }
 
-        Paciente paciente = patients.get(position);
-        holder.name.setText(paciente.getNomeCompleto());
-        holder.sex.setText(paciente.getSexoShortString());
-        holder.convenio.setText(paciente.getConvenio().toString());
-        holder.pesquisas.setText(paciente.isConcordaPesquisas() ? "Concorda" : "Não concorda");
+        Patient patient = patients.get(position);
+        holder.name.setText(patient.getNomeCompleto());
+        holder.sex.setText(patient.getSexoShortString());
+        holder.convenio.setText(patient.getConvenio().toString());
+        holder.pesquisas.setText(patient.isAgreesWithResearch() ? context.getString(R.string.agrees) : context.getString(R.string.doesn_agree));
 
         return view;
     }
@@ -75,7 +75,7 @@ public class PacienteAdapter extends BaseAdapter  {
         notifyDataSetChanged();
     }
 
-    public void clearAndAddAll(Collection<Paciente> collection) {
+    public void clearAndAddAll(Collection<Patient> collection) {
         patients.clear();
         patients.addAll(collection);
         notifyDataSetChanged();

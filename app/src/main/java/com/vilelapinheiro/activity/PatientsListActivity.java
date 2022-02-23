@@ -17,9 +17,9 @@ import androidx.appcompat.view.ActionMode;
 import com.vilelapinheiro.PacienteAdapter;
 import com.vilelapinheiro.R;
 import com.vilelapinheiro.dao.PatientDAO;
-import com.vilelapinheiro.model.Convenio;
-import com.vilelapinheiro.model.Paciente;
-import com.vilelapinheiro.model.Sexo;
+import com.vilelapinheiro.model.MedicalPlan;
+import com.vilelapinheiro.model.Gender;
+import com.vilelapinheiro.model.Patient;
 
 public class PatientsListActivity extends AppCompatActivity {
 
@@ -27,7 +27,7 @@ public class PatientsListActivity extends AppCompatActivity {
     public static final int CODE_NEW_PATIENT = 101;
     private ListView patientsList;
 
-    PatientDAO dao = new PatientDAO();
+    private final PatientDAO dao = new PatientDAO();
     private PacienteAdapter adapter;
     private ActionMode actionMode;
     private int selectedPosition = -1;
@@ -92,7 +92,7 @@ public class PatientsListActivity extends AppCompatActivity {
                     mode.finish();
                     return true;
                 case R.id.activity_lista_alunos_menu_edit:
-                    Paciente patient = (Paciente) adapter.getItem(selectedPosition);
+                    Patient patient = (Patient) adapter.getItem(selectedPosition);
                     callEditor(patient);
                     mode.finish();
                     return true;
@@ -117,7 +117,7 @@ public class PatientsListActivity extends AppCompatActivity {
     };
 
     private void deletePatient() {
-        Paciente patient = (Paciente) adapter.getItem(selectedPosition);
+        Patient patient = (Patient) adapter.getItem(selectedPosition);
         dao.remove(patient);
         adapter.removeRow(selectedPosition);
     }
@@ -153,12 +153,12 @@ public class PatientsListActivity extends AppCompatActivity {
 
         for (int i = 0; i < names.length; i++) {
             final String nome = names[i];
-            final Sexo sexo = "M".equalsIgnoreCase(genders[i]) ? Sexo.MASCULINO : Sexo.FEMININO;
-            final Convenio convenio = Convenio.valueOf(medicalPlans[i]);
+            final Gender gender = "M".equalsIgnoreCase(genders[i]) ? Gender.MASCULINE : Gender.FEMININE;
+            final MedicalPlan medicalPlan = MedicalPlan.valueOf(medicalPlans[i]);
             final boolean agreesWithResearch = "true".equalsIgnoreCase(researchAgreements[i]);
 
-            Paciente paciente = new Paciente(nome, sexo, convenio, agreesWithResearch);
-            dao.save(paciente);
+            Patient patient = new Patient(nome, gender, medicalPlan, agreesWithResearch);
+            dao.save(patient);
         }
     }
 
@@ -202,13 +202,13 @@ public class PatientsListActivity extends AppCompatActivity {
 
     private void configuraOnItemClickListener(ListView patientsList) {
         patientsList.setOnItemClickListener(((parent, view, position, id) -> {
-            final Paciente patient = (Paciente) parent.getItemAtPosition(position);
+            final Patient patient = (Patient) parent.getItemAtPosition(position);
 
             callEditor(patient);
         }));
     }
 
-    private void callEditor(Paciente patient) {
+    private void callEditor(Patient patient) {
         Intent editarPaciente = new Intent(PatientsListActivity.this, PatientFormActivity.class);
         editarPaciente.putExtra(KEY_PATIENT, patient);
         startActivityForResult(editarPaciente, CODE_NEW_PATIENT);
@@ -222,7 +222,7 @@ public class PatientsListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         if (requestCode == CODE_NEW_PATIENT && resultCode == RESULT_OK) {
-            Paciente patient = (Paciente) intent.getSerializableExtra(KEY_PATIENT);
+            Patient patient = (Patient) intent.getSerializableExtra(KEY_PATIENT);
 //            Log.i("PatientsListActivity", "onActivityResult: recebi o seguinte paciente: " + patient);
             dao.save(patient);
         }

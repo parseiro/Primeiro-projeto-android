@@ -20,9 +20,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vilelapinheiro.R;
-import com.vilelapinheiro.model.Convenio;
-import com.vilelapinheiro.model.Paciente;
-import com.vilelapinheiro.model.Sexo;
+import com.vilelapinheiro.model.MedicalPlan;
+import com.vilelapinheiro.model.Gender;
+import com.vilelapinheiro.model.Patient;
 
 import java.util.Arrays;
 
@@ -32,7 +32,7 @@ public class PatientFormActivity extends AppCompatActivity {
     private RadioGroup sexRadioGroup;
     private RadioButton masculineRdButton, feminineRdButton;
     private Spinner planSpinner;
-    private Paciente patient;
+    private Patient patient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,10 +49,10 @@ public class PatientFormActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent.hasExtra(KEY_PATIENT)) {
-            patient = (Paciente) intent.getSerializableExtra(KEY_PATIENT);
+            patient = (Patient) intent.getSerializableExtra(KEY_PATIENT);
             setTitle(getString(R.string.edit_patient));
         } else {
-            patient = new Paciente("", Sexo.MASCULINO, Convenio.UNIMED, true);
+            patient = new Patient("", Gender.MASCULINE, MedicalPlan.UNIMED, true);
             setTitle(getString(R.string.new_patient));
         }
 
@@ -88,17 +88,17 @@ public class PatientFormActivity extends AppCompatActivity {
     private void fillPatientsData() {
         nameField.setText(patient.getNomeCompleto());
         switch (patient.getSexo()) {
-            case MASCULINO:
+            case MASCULINE:
                 masculineRdButton.setChecked(true);
                 break;
-            case FEMININO:
+            case FEMININE:
                 feminineRdButton.setChecked(true);
                 break;
         }
 
-        agreeWithResearch.setChecked(patient.isConcordaPesquisas());
+        agreeWithResearch.setChecked(patient.isAgreesWithResearch());
 
-        int position = Arrays.asList(Convenio.values()).indexOf(patient.getConvenio());
+        int position = Arrays.asList(MedicalPlan.values()).indexOf(patient.getConvenio());
         planSpinner.setSelection(position);
     }
 
@@ -110,21 +110,21 @@ public class PatientFormActivity extends AppCompatActivity {
         feminineRdButton = findViewById(R.id.feminineRadioBtn);
         planSpinner = findViewById(R.id.spinnerConvenios);
 
-        ArrayAdapter<Convenio> adapter = new ArrayAdapter<>(
+        ArrayAdapter<MedicalPlan> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1,
-                Arrays.asList(Convenio.values()));
+                Arrays.asList(MedicalPlan.values()));
         planSpinner.setAdapter(adapter);
     }
 
     public void clickedSave() {
-        final Paciente patient = getPatientData();
+        final Patient patient = getPatientData();
         if (patient == null) return;
 
         finishActivity(RESULT_OK, patient);
     }
 
-    private void finishActivity(int resultCode, @Nullable Paciente patient) {
+    private void finishActivity(int resultCode, @Nullable Patient patient) {
         Intent intent = new Intent();
 
         if (patient != null) {
@@ -144,7 +144,7 @@ public class PatientFormActivity extends AppCompatActivity {
     }
 
     @Nullable
-    private Paciente getPatientData() {
+    private Patient getPatientData() {
         final String nameString = nameField.getText().toString();
         if (nameString.isEmpty()) {
             Toast.makeText(this,
@@ -155,15 +155,15 @@ public class PatientFormActivity extends AppCompatActivity {
             return null;
         }
 
-        final Convenio convenio = (Convenio) planSpinner.getSelectedItem();
+        final MedicalPlan medicalPlan = (MedicalPlan) planSpinner.getSelectedItem();
 
-        final Sexo sexo;
+        final Gender gender;
         switch (sexRadioGroup.getCheckedRadioButtonId()) {
             case R.id.masculineRadioBtn:
-                sexo = Sexo.MASCULINO;
+                gender = Gender.MASCULINE;
                 break;
             case R.id.feminineRadioBtn:
-                sexo = Sexo.FEMININO;
+                gender = Gender.FEMININE;
                 break;
             case -1:
             default:
@@ -177,9 +177,9 @@ public class PatientFormActivity extends AppCompatActivity {
         final boolean agrees = agreeWithResearch.isChecked();
 
         patient.setNomeCompleto(nameString);
-        patient.setSexo(sexo);
-        patient.setConvenio(convenio);
-        patient.setConcordaPesquisas(agrees);
+        patient.setSexo(gender);
+        patient.setConvenio(medicalPlan);
+        patient.setAgreesWithResearch(agrees);
 
         return patient;
     }

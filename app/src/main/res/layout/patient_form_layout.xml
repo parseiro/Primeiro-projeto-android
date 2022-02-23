@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginLeft="12dp"
-            android:text="@string/select_convenio"
+            android:text="@string/select_medical_plan"
             app:layout_constraintBottom_toTopOf="@+id/spinnerConvenios"
             app:layout_constraintStart_toStartOf="@+id/spinnerConvenios" />
 
