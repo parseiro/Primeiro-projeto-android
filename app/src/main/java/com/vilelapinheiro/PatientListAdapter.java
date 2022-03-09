@@ -41,22 +41,22 @@ public class PatientListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
         PatientHolder holder;
 
-        if (view == null) {
-            view = createView(viewGroup);
+        if (convertView == null) {
+            convertView = createView(viewGroup);
 
             holder = new PatientHolder();
 
-            holder.name = view.findViewById(R.id.name);
-            holder.sex = view.findViewById(R.id.sex);
-            holder.convenio = view.findViewById(R.id.medicalPlan);
-            holder.pesquisas = view.findViewById(R.id.pesquisas);
+            holder.name = convertView.findViewById(R.id.name);
+            holder.sex = convertView.findViewById(R.id.sex);
+            holder.convenio = convertView.findViewById(R.id.medicalPlan);
+            holder.pesquisas = convertView.findViewById(R.id.pesquisas);
 
-            view.setTag(holder);
+            convertView.setTag(holder);
         } else {
-            holder = (PatientHolder) view.getTag();
+            holder = (PatientHolder) convertView.getTag();
         }
 
         Patient patient = patients.get(position);
@@ -65,7 +65,7 @@ public class PatientListAdapter extends BaseAdapter {
         holder.convenio.setText(patient.getConvenio().toString());
         holder.pesquisas.setText(patient.isAgreesWithResearch() ? context.getString(R.string.agrees) : context.getString(R.string.doesn_agree));
 
-        return view;
+        return convertView;
     }
 
     private View createView(ViewGroup viewGroup) {

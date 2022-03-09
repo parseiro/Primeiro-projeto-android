@@ -30,5 +30,10 @@
     <string name="title_interface">Interface</string>
     <string name="explain_night_mode">Activate or deactivate the night mode</string>
     <string name="agree_with_research">Only who has agreed</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="are_you_sure_to_remove_patient">Are you sure you want to DELETE the patient?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
 
 </resources>

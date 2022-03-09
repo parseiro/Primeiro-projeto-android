@@ -1,5 +1,8 @@
 package com.vilelapinheiro.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -44,11 +47,6 @@ public class PatientsListActivity extends AppCompatActivity {
 
         setContentView(R.layout.patients_list);
         setTitle(getString(R.string.patients));
-
-
-        createHardcodedPatients();
-
-        readFilterSetting();
 
         configureList();
     }
@@ -123,7 +121,7 @@ public class PatientsListActivity extends AppCompatActivity {
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.activity_lista_alunos_menu_delete:
-                    deletePatient();
+                    askAndDeletePatient(PatientsListActivity.this);
                     mode.finish();
                     return true;
                 case R.id.activity_lista_alunos_menu_edit:
@@ -150,6 +148,18 @@ public class PatientsListActivity extends AppCompatActivity {
             patientsList.setEnabled(true);
         }
     };
+
+    private void askAndDeletePatient(Context context) {
+        AlertDialog.Builder builder = new AlertDialog
+                .Builder(context)
+                .setTitle(R.string.are_you_sure)
+                .setMessage(R.string.are_you_sure_to_remove_patient)
+                .setPositiveButton(R.string.yes, (dialog, which) -> {
+                    deletePatient();
+                })
+                .setNegativeButton(R.string.no, null);
+        builder.show();
+    }
 
     private void deletePatient() {
         Patient patient = (Patient) adapter.getItem(selectedPosition);
@@ -178,24 +188,6 @@ public class PatientsListActivity extends AppCompatActivity {
                 return super.onContextItemSelected(item);
         }
     }*/
-
-    private void createHardcodedPatients() {
-        String[] names = getResources().getStringArray(R.array.names);
-        String[] genders = getResources().getStringArray(R.array.genders);
-        String[] medicalPlans = getResources().getStringArray(R.array.medical_plans);
-        String[] researchAgreements = getResources().getStringArray(R.array.researchAgreements);
-
-
-        for (int i = 0; i < names.length; i++) {
-            final String nome = names[i];
-            final Gender gender = "M".equalsIgnoreCase(genders[i]) ? Gender.MASCULINE : Gender.FEMININE;
-            final MedicalPlan medicalPlan = MedicalPlan.valueOf(medicalPlans[i]);
-            final boolean agreesWithResearch = "true".equalsIgnoreCase(researchAgreements[i]);
-
-            Patient patient = new Patient(nome, gender, medicalPlan, agreesWithResearch);
-            dao.save(patient);
-        }
-    }
 
     private void configureList() {
 //        System.out.println("Rodando novamente configureList()");
@@ -267,14 +259,6 @@ public class PatientsListActivity extends AppCompatActivity {
 
     public static final String FILTERS_SETTING = "com.vilelapinheiro.FILTROS";
     public static final String AGREED = "only_agreed";
-
-    public void readFilterSetting() {
-        SharedPreferences preferences = getSharedPreferences(FILTERS_SETTING, MODE_PRIVATE);
-
-        filteredByAgreed = preferences.getBoolean(AGREED, false);
-
-//        mudarCor(filteredByAgreed);
-    }
 
     private void saveFilterSetting(boolean newState) {
         SharedPreferences preferences = getSharedPreferences(FILTERS_SETTING, MODE_PRIVATE);

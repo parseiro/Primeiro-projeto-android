@@ -29,4 +29,8 @@
     <string name="title_interface">Interface</string>
     <string name="explain_night_mode">Ativar ou desativar o modo noturno</string>
     <string name="agree_with_research">Apenas quem concordou</string>
+    <string name="are_you_sure">Você tem certeza?</string>
+    <string name="are_you_sure_to_remove_patient">Tem certeza de que quer EXCLUIR o paciente?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
 </resources>

@@ -10,7 +10,7 @@ import java.util.List;
 
 public class PatientDAO {
 
-    private final List<Patient> patients = new ArrayList<>();
+    private final static List<Patient> patients = new ArrayList<>();
 
     private static Long nextId = 1L;
 
