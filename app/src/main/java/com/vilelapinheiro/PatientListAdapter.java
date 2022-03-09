@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.vilelapinheiro.model.Patient;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class PatientListAdapter extends BaseAdapter {
@@ -18,7 +17,7 @@ public class PatientListAdapter extends BaseAdapter {
     private final Context context;
     private final List<Patient> patients = new ArrayList<>();
 
-    private static class PacienteHolder {
+    private static class PatientHolder {
         public TextView name, sex, convenio, pesquisas;
     }
 
@@ -43,13 +42,12 @@ public class PatientListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        PacienteHolder holder;
+        PatientHolder holder;
 
         if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.list_item_patient, viewGroup, false);
+            view = createView(viewGroup);
 
-            holder = new PacienteHolder();
+            holder = new PatientHolder();
 
             holder.name = view.findViewById(R.id.name);
             holder.sex = view.findViewById(R.id.sex);
@@ -58,7 +56,7 @@ public class PatientListAdapter extends BaseAdapter {
 
             view.setTag(holder);
         } else {
-            holder = (PacienteHolder) view.getTag();
+            holder = (PatientHolder) view.getTag();
         }
 
         Patient patient = patients.get(position);
@@ -68,6 +66,12 @@ public class PatientListAdapter extends BaseAdapter {
         holder.pesquisas.setText(patient.isAgreesWithResearch() ? context.getString(R.string.agrees) : context.getString(R.string.doesn_agree));
 
         return view;
+    }
+
+    private View createView(ViewGroup viewGroup) {
+        return LayoutInflater
+                .from(context)
+                .inflate(R.layout.list_item_patient, viewGroup, false);
     }
 
     public void removeRow(int position) {
