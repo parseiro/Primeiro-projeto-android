@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PacienteAdapter extends BaseAdapter {
+public class PatientListAdapter extends BaseAdapter {
 
     private final Context context;
     private final List<Patient> patients = new ArrayList<>();
@@ -22,7 +22,7 @@ public class PacienteAdapter extends BaseAdapter {
         public TextView name, sex, convenio, pesquisas;
     }
 
-    public PacienteAdapter(Context context) {
+    public PatientListAdapter(Context context) {
         this.context = context;
     }
 

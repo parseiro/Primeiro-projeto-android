@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 
-import com.vilelapinheiro.PacienteAdapter;
+import com.vilelapinheiro.PatientListAdapter;
 import com.vilelapinheiro.R;
 import com.vilelapinheiro.dao.PatientDAO;
 import com.vilelapinheiro.model.MedicalPlan;
@@ -31,7 +31,7 @@ public class PatientsListActivity extends AppCompatActivity {
     private ListView patientsList;
 
     private final PatientDAO dao = new PatientDAO();
-    private PacienteAdapter adapter;
+    private PatientListAdapter adapter;
     private ActionMode actionMode;
     private int selectedPosition = -1;
     private View selectedView;
@@ -202,7 +202,7 @@ public class PatientsListActivity extends AppCompatActivity {
 //        List<Paciente> pacientes = dao.findAll();
         patientsList = findViewById(R.id.activity_main_lista_alunos);
 
-        adapter = new PacienteAdapter(this);
+        adapter = new PatientListAdapter(this);
         patientsList.setAdapter(adapter);
 
 //        configuraOnItemClickListener(patientsList);
