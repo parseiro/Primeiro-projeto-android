@@ -27,7 +27,8 @@
             android:ems="10"
             android:inputType="textPersonName|textCapWords"
             app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toTopOf="@+id/textView2" />
+            app:layout_constraintTop_toTopOf="@+id/textView2"
+            android:importantForAutofill="no" />
 
         <TextView
             android:id="@+id/textView2"

@@ -1,7 +1,6 @@
 package com.vilelapinheiro.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,8 +22,6 @@ import androidx.appcompat.view.ActionMode;
 import com.vilelapinheiro.PatientListAdapter;
 import com.vilelapinheiro.R;
 import com.vilelapinheiro.dao.PatientDAO;
-import com.vilelapinheiro.model.MedicalPlan;
-import com.vilelapinheiro.model.Gender;
 import com.vilelapinheiro.model.Patient;
 
 public class PatientsListActivity extends AppCompatActivity {
@@ -45,7 +42,7 @@ public class PatientsListActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.patients_list);
+        setContentView(R.layout.activity_patients_list);
         setTitle(getString(R.string.patients));
 
         configureList();
