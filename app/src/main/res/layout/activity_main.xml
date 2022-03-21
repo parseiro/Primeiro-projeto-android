@@ -7,27 +7,36 @@
     tools:context=".activity.MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonPatients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="@string/patients"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.513"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"
         android:onClick="openPatients"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/patients"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-<!--    <Button
-        android:id="@+id/button2"
+    <Button
+        android:id="@+id/buttonAppointments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:text="@string/settings"
-        android:onClick="openSettings"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/button" />-->
+        android:layout_margin="16dp"
+        android:onClick="openAppointments"
+        android:text="@string/appointments"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonPatients" />
+
+    <!--    <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="180dp"
+            android:text="@string/settings"
+            android:onClick="openSettings"
+            app:layout_constraintStart_toStartOf="@+id/button"
+            app:layout_constraintTop_toBottomOf="@+id/button" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

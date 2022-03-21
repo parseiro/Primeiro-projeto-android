@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.vilelapinheiro.R;
 
@@ -31,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openPatients(View view) {
         Intent about = new Intent(this, PatientsListActivity.class);
+        startActivity(about);
+    }
+
+    public void openAppointments(View view) {
+        Intent about = new Intent(this, AppointmentsListActivity.class);
         startActivity(about);
     }
 

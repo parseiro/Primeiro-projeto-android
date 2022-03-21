@@ -15,8 +15,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="268dp"
             android:text="@string/agreed_research"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="32dp" />
+            app:layout_constraintStart_toStartOf="@+id/spinnerConvenios"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/nameTexteditor"
@@ -34,8 +34,8 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
             android:text="@string/complete_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -70,8 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="224dp"
             android:spinnerMode="dialog"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="32dp" />
+            app:layout_constraintStart_toStartOf="@+id/sexoRadiogroup"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView3"

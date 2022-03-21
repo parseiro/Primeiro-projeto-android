@@ -3,13 +3,20 @@
     package="com.vilelapinheiro">
 
     <application
+        android:name=".AgendaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Agenda"
-        android:name=".AgendaApplication">
+        android:theme="@style/Theme.Agenda">
+        <activity
+            android:name=".activity.AppointmentsListActivity"
+            android:exported="false" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
         <activity
             android:name=".activity.SettingsActivity"
             android:exported="false"
@@ -29,18 +36,35 @@
         </activity>
         <activity
             android:name=".activity.PatientsListActivity"
-            android:exported="true">
+            android:exported="false"
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.PatientFormActivity"
-            android:exported="true"
+            android:exported="false"
             android:parentActivityName=".activity.PatientsListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.PatientsListActivity" />
+        </activity>
+        <activity
+            android:name=".activity.PatientViewActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.PatientsListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.PatientsListActivity" />
+        </activity>
+        <activity
+            android:name=".activity.AppointmentFormActivity"
+            android:exported="false"
+            android:parentActivityName=".activity.AppointmentsListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.AppointmentsListActivity" />
         </activity>
         <activity
             android:name=".activity.AboutActivity"

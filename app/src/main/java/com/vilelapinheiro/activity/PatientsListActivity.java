@@ -1,12 +1,15 @@
 package com.vilelapinheiro.activity;
 
+import static com.vilelapinheiro.AgendaApplication.CODE_EDIT_PATIENT;
+import static com.vilelapinheiro.AgendaApplication.CODE_NEW_PATIENT;
+import static com.vilelapinheiro.AgendaApplication.KEY_PATIENT_ID;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,18 +22,23 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 
+import com.vilelapinheiro.AgendaApplication;
 import com.vilelapinheiro.PatientListAdapter;
 import com.vilelapinheiro.R;
-import com.vilelapinheiro.dao.PatientDAO;
+import com.vilelapinheiro.dao.RoomAppointmentDAO;
+import com.vilelapinheiro.dao.RoomPatientDAO;
+import com.vilelapinheiro.database.IPatientsDatabase;
+import com.vilelapinheiro.model.Appointment;
 import com.vilelapinheiro.model.Patient;
+
+import java.util.List;
 
 public class PatientsListActivity extends AppCompatActivity {
 
-    public static final String KEY_PATIENT = "patient";
-    public static final int CODE_NEW_PATIENT = 101;
+
     private ListView patientsList;
 
-    private final PatientDAO dao = new PatientDAO();
+    private RoomPatientDAO patientDAO;
     private PatientListAdapter adapter;
     private ActionMode actionMode;
     private int selectedPosition = -1;
@@ -45,6 +53,9 @@ public class PatientsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_patients_list);
         setTitle(getString(R.string.patients));
 
+        patientDAO = IPatientsDatabase.getInstance(this)
+                .getRoomPatientDAO();
+
         configureList();
     }
 
@@ -55,7 +66,7 @@ public class PatientsListActivity extends AppCompatActivity {
     }
 
     private void refreshList() {
-        adapter.clearAndAddAll(dao.findAll(), filteredByAgreed);
+        adapter.clearAndAddAll(patientDAO.findAll(), filteredByAgreed);
     }
 
     @Override
@@ -66,28 +77,25 @@ public class PatientsListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-/*            case R.id.activity_patients_list_about:
-                Intent about = new Intent(this, AboutActivity.class);
-                startActivity(about);
-                return true;*/
-            case R.id.activity_patients_list_new:
-                clickedAdd();
-                return true;
-            case R.id.agreed:
-                boolean newState = !item.isChecked();
+        final int id = item.getItemId();
+
+        if (id == R.id.activity_patients_list_new) {
+            clickedAdd();
+            return true;
+        } else if (id == R.id.agreed) {
+            boolean newState = !item.isChecked();
 //                item.setChecked(newState);
-                clickedFilterByAgreed(newState);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            clickedFilterByAgreed(newState);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem agreedMenuItem = menu.findItem(R.id.agreed);
-        Log.i("Leonardo", "onPrepareOptionsMenu: " + filteredByAgreed);
+//        Log.i("Leonardo", "onPrepareOptionsMenu: " + filteredByAgreed);
         agreedMenuItem.setChecked(filteredByAgreed);
         return true;
     }
@@ -105,7 +113,7 @@ public class PatientsListActivity extends AppCompatActivity {
     private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.activity_patients_list_contextual_menu, menu);
+            mode.getMenuInflater().inflate(R.menu.activity_patients_contextual_menu, menu);
             return true;
         }
 
@@ -116,19 +124,19 @@ public class PatientsListActivity extends AppCompatActivity {
 
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.activity_lista_alunos_menu_delete:
-                    askAndDeletePatient(PatientsListActivity.this);
-                    mode.finish();
-                    return true;
-                case R.id.activity_lista_alunos_menu_edit:
-                    Patient patient = (Patient) adapter.getItem(selectedPosition);
-                    callEditor(patient);
-                    mode.finish();
-                    return true;
-                default:
-                    return false;
+            final int itemId = item.getItemId();
 
+            if (itemId == R.id.activity_patients_menu_delete) {
+                askAndDeletePatient(PatientsListActivity.this);
+                mode.finish();
+                return true;
+            } else if (itemId == R.id.activity_patients_menu_edit) {
+                Patient patient = (Patient) adapter.getItem(selectedPosition);
+                callEditor(patient);
+                mode.finish();
+                return true;
+            } else {
+                return false;
             }
         }
 
@@ -160,7 +168,14 @@ public class PatientsListActivity extends AppCompatActivity {
 
     private void deletePatient() {
         Patient patient = (Patient) adapter.getItem(selectedPosition);
-        dao.remove(patient);
+
+        RoomAppointmentDAO appointmentDAO = AgendaApplication.getAppointmentDAO();
+        List<Appointment> allByPatientId = appointmentDAO.findAllByPatientId(patient.getPatientId());
+        for (Appointment ap : allByPatientId) {
+            appointmentDAO.remove(ap);
+        }
+
+        patientDAO.remove(patient);
         adapter.removeRow(selectedPosition);
     }
 
@@ -188,19 +203,22 @@ public class PatientsListActivity extends AppCompatActivity {
 
     private void configureList() {
 //        System.out.println("Rodando novamente configureList()");
-//        List<Paciente> pacientes = dao.findAll();
-        patientsList = findViewById(R.id.activity_main_lista_alunos);
+        patientsList = findViewById(R.id.activity_patients_list);
 
         adapter = new PatientListAdapter(this);
         patientsList.setAdapter(adapter);
 
 //        configuraOnItemClickListener(patientsList);
 
+        configureLongClick();
+
+        registerForContextMenu(patientsList);
+
+        patientsList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+    }
+
+    private void configureLongClick() {
         patientsList.setOnItemLongClickListener((parent, view, position, id) -> {
-/*            final Paciente patient = (Paciente) parent.getItemAtPosition(position);
-            dao.remove(patient);
-            adapter.removeRow(position);
-            return true;*/
 
             if (actionMode != null) {
                 return false;
@@ -218,24 +236,26 @@ public class PatientsListActivity extends AppCompatActivity {
 
             return true;
         });
-
-        registerForContextMenu(patientsList);
-
-        patientsList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
     }
 
-    private void configuraOnItemClickListener(ListView patientsList) {
+/*    private void configuraOnItemClickListener(ListView patientsList) {
         patientsList.setOnItemClickListener(((parent, view, position, id) -> {
             final Patient patient = (Patient) parent.getItemAtPosition(position);
 
-            callEditor(patient);
+            callViewer(patient);
         }));
-    }
+    }*/
 
     private void callEditor(Patient patient) {
         Intent editarPaciente = new Intent(PatientsListActivity.this, PatientFormActivity.class);
-        editarPaciente.putExtra(KEY_PATIENT, patient);
-        startActivityForResult(editarPaciente, CODE_NEW_PATIENT);
+        editarPaciente.putExtra(AgendaApplication.KEY_PATIENT, patient);
+        startActivityForResult(editarPaciente, CODE_EDIT_PATIENT);
+    }
+
+    private void callViewer(Patient patient) {
+        Intent viewPatient = new Intent(PatientsListActivity.this, PatientViewActivity.class);
+        viewPatient.putExtra(KEY_PATIENT_ID, patient.getPatientId());
+        startActivityForResult(viewPatient, CODE_NEW_PATIENT);
     }
 
     public void clickedAdd() {
@@ -246,9 +266,13 @@ public class PatientsListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent intent) {
         if (requestCode == CODE_NEW_PATIENT && resultCode == RESULT_OK) {
-            Patient patient = (Patient) intent.getSerializableExtra(KEY_PATIENT);
+            Patient patient = (Patient) intent.getSerializableExtra(AgendaApplication.KEY_PATIENT);
 //            Log.i("PatientsListActivity", "onActivityResult: recebi o seguinte paciente: " + patient);
-            dao.save(patient);
+            patientDAO.saveNew(patient);
+        } else if (requestCode == CODE_EDIT_PATIENT && resultCode == RESULT_OK) {
+            Patient patient = (Patient) intent.getSerializableExtra(AgendaApplication.KEY_PATIENT);
+//            Log.i("PatientsListActivity", "onActivityResult: recebi o seguinte paciente: " + patient);
+            patientDAO.update(patient);
         }
 
         super.onActivityResult(requestCode, resultCode, intent);

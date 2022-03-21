@@ -1,13 +1,28 @@
 package com.vilelapinheiro.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity(tableName = "patients")
 public class Patient implements Serializable {
-    private long id;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name =  "patient_id")
+    private long patientId;
 
     private String nomeCompleto;
 
     private Gender gender;
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public MedicalPlan getMedicalPlan() {
+        return medicalPlan;
+    }
 
     private MedicalPlan medicalPlan;
 
@@ -20,12 +35,12 @@ public class Patient implements Serializable {
         this.agreesWithResearch = agreesWithResearch;
     }
 
-    public long getId() {
-        return id;
+    public long getPatientId() {
+        return patientId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setPatientId(long patientId) {
+        this.patientId = patientId;
     }
 
     public String getNomeCompleto() {
@@ -40,7 +55,9 @@ public class Patient implements Serializable {
         return gender;
     }
 
-    public String getSexoShortString() { return gender == Gender.FEMININE ? "F" : "M"; }
+    public String getSexoShortString() {
+        return gender == Gender.FEMININE ? "F" : "M";
+    }
 
     public void setSexo(Gender gender) {
         this.gender = gender;

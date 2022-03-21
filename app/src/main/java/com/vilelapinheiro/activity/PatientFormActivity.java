@@ -1,6 +1,6 @@
 package com.vilelapinheiro.activity;
 
-import static com.vilelapinheiro.activity.PatientsListActivity.KEY_PATIENT;
+import static com.vilelapinheiro.AgendaApplication.KEY_PATIENT;
 
 import android.content.Intent;
 import android.os.Bundle;

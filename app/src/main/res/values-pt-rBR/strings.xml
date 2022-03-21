@@ -33,4 +33,17 @@
     <string name="are_you_sure_to_remove_patient">Tem certeza de que quer EXCLUIR o paciente?</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="appointments">Consultas</string>
+    <string name="sex_twocolons">Sexo:</string>
+    <string name="medicalplan_twocolons">Convênio Médico:</string>
+    <string name="view_patient">Visualizar paciente</string>
+    <string name="are_you_sure_to_remove_appointment">Tem certeza de que quer EXCLUIR a consulta?</string>
+    <string name="select_patient">Selecione o paciente:</string>
+    <string name="select_date_and_time">Selecione o dia e a hora</string>
+    <string name="edit_appointment">Editar consulta</string>
+    <string name="new_appointment">Nova consulta</string>
+    <string name="date_cant_be_empty">Data não pode ser vazia</string>
+    <string name="date_twocolon">Data:</string>
+    <string name="time_twocolon">Hora:</string>
+    <string name="patient_twocolon">Paciente:</string>
 </resources>

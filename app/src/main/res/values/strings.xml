@@ -34,6 +34,18 @@
     <string name="are_you_sure_to_remove_patient">Are you sure you want to DELETE the patient?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
-
+    <string name="appointments">Appointments</string>
+    <string name="sex_twocolons">Sex:</string>
+    <string name="medicalplan_twocolons">Medical Plan:</string>
+    <string name="view_patient">View patient</string>
+    <string name="id" translatable="false">ID</string>
+    <string name="are_you_sure_to_remove_appointment">Are you sure to DELETE the appointment?</string>
+    <string name="select_patient">Select the patient:</string>
+    <string name="select_date_and_time">Select date and time</string>
+    <string name="edit_appointment">Edit Appointment</string>
+    <string name="new_appointment">New Appointment</string>
+    <string name="date_cant_be_empty">Date cannot be empty</string>
+    <string name="date_twocolon">Date:</string>
+    <string name="time_twocolon">Time:</string>
+    <string name="patient_twocolon">Patient:</string>
 </resources>

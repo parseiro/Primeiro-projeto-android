@@ -37,7 +37,7 @@ public class PatientListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return patients.get(position).getId();
+        return patients.get(position).getPatientId();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class PatientListAdapter extends BaseAdapter {
     private View createView(ViewGroup viewGroup) {
         return LayoutInflater
                 .from(context)
-                .inflate(R.layout.list_item_patient, viewGroup, false);
+                .inflate(R.layout.item_patient, viewGroup, false);
     }
 
     public void removeRow(int position) {
